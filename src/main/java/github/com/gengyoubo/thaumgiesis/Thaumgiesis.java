@@ -1,6 +1,7 @@
 package github.com.gengyoubo.thaumgiesis;
 
 import github.com.gengyoubo.thaumgiesis.crucible.CrucibleStation;
+import github.com.gengyoubo.thaumgiesis.research.ResearchTableStation;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(Thaumgiesis.MOD_ID)
@@ -9,5 +10,6 @@ public final class Thaumgiesis {
 
     public Thaumgiesis() {
         CrucibleStation.register();
+        ResearchTableStation.register();
     }
 }

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Pocky-l/diegesis/main/docs/schema/scene.schema.json",
+  "$comment": "Generated: Thaumcraft research table, metadata 3. The desk lies on the table top in the pixels of the unturned table (metadata 5), turned -90 degrees.",
+  "camera": {
+    "position": [
+      -8.0,
+      37,
+      16.0
+    ],
+    "target": [
+      7.5,
+      16,
+      16.0
+    ],
+    "fov": 52
+  },
+  "work_plane": 18,
+  "idle_visible": false,
+  "inventory_drawer": {
+    "side": "bottom"
+  },
+  "nodes": [
+    {
+      "id": "desk",
+      "pos": [
+        16.0,
+        16,
+        -0.0
+      ],
+      "rotation": [
+        0,
+        -90,
+        0
+      ],
+      "collider": {
+        "from": [
+          0,
+          -0.5,
+          0
+        ],
+        "to": [
+          32,
+          3,
+          16
+        ]
+      },
+      "takes_items": true
+    }
+  ]
+}

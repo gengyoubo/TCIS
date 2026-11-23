@@ -322,6 +322,14 @@ final class CrucibleHud {
         return lines;
     }
 
+    /** Every aspect Thaumcraft knows, by tag: icon, colour and what it is made of. */
+    static Map<String, TcAspect> aspects() {
+        if (aspectIcons == null || aspectIcons.isEmpty()) {
+            aspectIcons = loadAspects();
+        }
+        return aspectIcons;
+    }
+
     private static Map<String, TcAspect> loadAspects() {
         Map<String, TcAspect> icons = new HashMap<>();
         try {
