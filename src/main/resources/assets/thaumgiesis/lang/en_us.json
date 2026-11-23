@@ -1,0 +1,14 @@
+{
+  "thaumgiesis.crucible.contents": "Water: %s mB",
+  "thaumgiesis.crucible.mouth": "Left-click to dissolve\nRight-click to add water or craft",
+  "thaumgiesis.crucible.guide": "Left-click ingredients into the crucible. Right-click with a catalyst to craft.",
+  "thaumgiesis.crucible.dry": "Right-click with a water bucket to fill the crucible.",
+  "thaumgiesis.crucible.heating": "Heat the water from below until it boils.",
+  "thaumgiesis.crucible.filled": "Water added to the crucible.",
+  "thaumgiesis.crucible.full": "The crucible is already full.",
+  "thaumgiesis.crucible.dissolved": "Ingredient dissolved into essentia.",
+  "thaumgiesis.crucible.crafted": "Crafting complete.",
+  "thaumgiesis.crucible.no_essentia": "This ingredient provides no essentia.",
+  "thaumgiesis.crucible.no_recipe": "No unlocked recipe matches this catalyst and the dissolved essentia.",
+  "thaumgiesis.crucible.unavailable": "Cannot read this crucible's contents."
+}

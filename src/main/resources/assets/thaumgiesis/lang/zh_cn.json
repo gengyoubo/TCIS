@@ -1,0 +1,14 @@
+{
+  "thaumgiesis.crucible.contents": "水量：%s mB",
+  "thaumgiesis.crucible.mouth": "左键分解材料\n右键加水或合成",
+  "thaumgiesis.crucible.guide": "持材料左键分解，持触媒右键合成。",
+  "thaumgiesis.crucible.dry": "持水桶右键锅口加水。",
+  "thaumgiesis.crucible.heating": "在坩埚下准备热源，等水烧开。",
+  "thaumgiesis.crucible.filled": "已向坩埚加水。",
+  "thaumgiesis.crucible.full": "坩埚已经装满水。",
+  "thaumgiesis.crucible.dissolved": "材料已分解为要素。",
+  "thaumgiesis.crucible.crafted": "合成完成。",
+  "thaumgiesis.crucible.no_essentia": "这种材料无法溶出要素。",
+  "thaumgiesis.crucible.no_recipe": "当前触媒和要素没有匹配已解锁的配方。",
+  "thaumgiesis.crucible.unavailable": "暂时无法读取坩埚。"
+}

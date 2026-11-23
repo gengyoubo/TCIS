@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Pocky-l/diegesis/main/docs/schema/scene.schema.json",
+  "camera": {"position": [8, 39, -11], "target": [8, 12, 8], "fov": 56},
+  "work_plane": 14,
+  "idle_visible": false,
+  "inventory_drawer": {"side": "right"},
+  "nodes": [
+    {
+      "id": "mouth", "pos": [8, 13.5, 8],
+      "tooltip": "thaumgiesis.crucible.mouth",
+      "collider": {"from": [-6.5, -1, -6.5], "to": [6.5, 2.5, 6.5]},
+      "takes_items": true
+    },
+    {"id": "broth", "pos": [8, 0, 8], "pickable": false}
+  ]
+}
