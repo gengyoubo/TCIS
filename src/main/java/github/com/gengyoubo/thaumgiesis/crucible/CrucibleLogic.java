@@ -119,7 +119,10 @@ final class CrucibleLogic implements StationLogic {
         data.putFloat("z", boundedOrigin(input, "z", 4));
         data.putFloat("surface", surface);
         station.effect(CrucibleStation.TOSS, "broth", data);
-        station.level().playSound(null, station.pos(), sound, SoundSource.BLOCKS, 0.6F, 1);
+        if (!pour) {
+            // A bucket's pour plays its own sound as the water starts to run.
+            station.level().playSound(null, station.pos(), sound, SoundSource.BLOCKS, 0.6F, 1);
+        }
     }
 
     private static float boundedOrigin(CompoundTag input, String key, float fallback) {

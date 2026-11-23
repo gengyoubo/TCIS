@@ -7,10 +7,25 @@
   "nodes": [
     {
       "id": "mouth", "pos": [8, 13.5, 8],
-      "tooltip": "thaumgiesis.crucible.mouth",
       "collider": {"from": [-6.5, -1, -6.5], "to": [6.5, 2.5, 6.5]},
       "takes_items": true
     },
-    {"id": "broth", "pos": [8, 0, 8], "pickable": false}
+    {"id": "broth", "pos": [8, 0, 8], "pickable": false},
+    {"id": "hand", "pos": [0, 0, 0], "hidden": true, "pickable": false},
+    {
+      "id": "recipe_book", "pos": [22.5, 14, 6],
+      "rotation": [-22, 20, 8],
+      "scale": 0.55,
+      "collider": {"from": [-6, -0.5, -9], "to": [6, 3.5, 9]},
+      "tooltip": "thaumgiesis.crucible.book",
+      "takes_items": true
+    },
+    {
+      "id": "book_open", "pos": [28, 14, 7],
+      "rotation": [-50, 15, 0],
+      "scale": 0.62,
+      "hidden": true,
+      "collider": {"from": [-11, -1, -10], "to": [11, 2.5, 10]}
+    }
   ]
 }

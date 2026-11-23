@@ -1,0 +1,8 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "github.com.gengyoubo.thaumgiesis.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": ["ThaumcraftGogglesMixin"],
+  "injectors": {"defaultRequire": 0}
+}
