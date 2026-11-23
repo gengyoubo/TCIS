@@ -92,6 +92,14 @@ public final class ResearchTableClient implements StationBehavior {
     private static final float PAPER_DROP = 72.0F;
     @Nullable
     private static ResearchTableClient focused;
+    /** The notices of aspects gained: how many at most, how long each stays and slides, milliseconds. */
+    private static final List<Notice> NOTICES = new ArrayList<>();
+    private static final int NOTICE_MOST = 5;
+    private static final long NOTICE_TIME = 3000;
+    private static final long NOTICE_SLIDE = 250;
+    /** Thaumcraft's colours for them: points gained in white, an aspect discovered in gold. */
+    private static final int NOTICE_WHITE = 0xFFFFFFFF;
+    private static final int NOTICE_GOLD = 0xFFFFAA00;
 
     private boolean penHeld;
     @Nullable
@@ -639,9 +647,76 @@ public final class ResearchTableClient implements StationBehavior {
         }
     }
 
+    // ----------------------------------------------------------------------------------------------------------------- notices
+
+    @Override
+    public void onEffect(StationView view, ResourceLocation effect, String node, CompoundTag data) {
+        if (ResearchTableStation.GAINED.equals(effect) && view.isFocused() && !data.getString("aspect").isEmpty()) {
+            String tag = data.getString("aspect");
+            long now = net.minecraft.Util.getMillis();
+            String name = github.com.gengyoubo.tcmodern.lib.client.AspectIcons.name(tag);
+            // Thaumcraft's own words: the points gained, then, the first time, the discovery.
+            NOTICES.add(new Notice(tag, legacyText("tc.addaspectpool", LANG + "notice.pool",
+                    Integer.toString(Math.max(1, data.getInt("amount"))), name), NOTICE_WHITE, now));
+            if (data.getBoolean("new")) {
+                NOTICES.add(new Notice(tag, legacyText("tc.addaspectdiscovery", LANG + "notice.discovery", null, name),
+                        NOTICE_GOLD, now));
+            }
+            while (NOTICES.size() > NOTICE_MOST) {
+                NOTICES.remove(0);
+            }
+        }
+    }
+
+    /**
+     * A Thaumcraft line from its language file, its {@code %s} the amount and {@code %n} the aspect's name as Thaumcraft fills them,
+     * or this mod's own line when the game has not loaded Thaumcraft's.
+     */
+    private static String legacyText(String legacyKey, String ownKey, @Nullable String amount, String name) {
+        var language = net.minecraft.locale.Language.getInstance();
+        if (language.has(legacyKey)) {
+            String text = language.getOrDefault(legacyKey);
+            return (amount == null ? text : text.replace("%s", amount)).replace("%n", name);
+        }
+        return amount == null ? I18n.get(ownKey, name) : I18n.get(ownKey, amount, name);
+    }
+
+    /**
+     * What the player gained, in the lower right corner as Thaumcraft 4 writes it: a line of shadowed text and the aspect's icon at
+     * the right edge, newest at the foot, sliding in from the edge and out again after a while.
+     */
+    private static void renderNotices(net.minecraft.client.gui.GuiGraphics graphics, net.minecraft.client.gui.screens.Screen screen) {
+        long now = net.minecraft.Util.getMillis();
+        NOTICES.removeIf(notice -> now - notice.at() > NOTICE_TIME);
+        var font = Minecraft.getInstance().font;
+        Map<String, TcAspect> known = CrucibleHud.aspects();
+        graphics.pose().pushPose();
+        graphics.pose().translate(0, 0, 450);
+        int row = 0;
+        for (int index = NOTICES.size() - 1; index >= 0; index--, row++) {
+            Notice notice = NOTICES.get(index);
+            long age = now - notice.at();
+            float in = Mth.clamp(age / (float) NOTICE_SLIDE, 0, 1);
+            float out = Mth.clamp((NOTICE_TIME - age) / (float) NOTICE_SLIDE, 0, 1);
+            float shown = Math.min(1 - (1 - in) * (1 - in), 1 - (1 - out) * (1 - out));
+            int width = font.width(notice.text()) + 22;
+            int right = Math.round(screen.width - 4 + width * (1 - shown));
+            int top = screen.height - 6 - 18 * (row + 1);
+            TcAspect aspect = known.get(notice.tag());
+            if (aspect != null) {
+                github.com.gengyoubo.tcmodern.lib.client.AspectIcons.render(graphics, aspect, right - 16, top);
+            }
+            graphics.drawString(font, notice.text(), right - 20 - font.width(notice.text()), top + 4, notice.colour(), true);
+        }
+        graphics.pose().popPose();
+    }
+
     // ----------------------------------------------------------------------------------------------------------------- tooltips
 
     private static void renderTooltip(ScreenEvent.Render.Post event) {
+        if (!NOTICES.isEmpty()) {
+            renderNotices(event.getGuiGraphics(), event.getScreen());
+        }
         ResearchTableClient table = focused;
         if (table == null || table.spot == null || !DiegesisClient.isStationScreen(event.getScreen())) {
             return;
@@ -684,6 +759,9 @@ public final class ResearchTableClient implements StationBehavior {
         boolean onPalette() {
             return this == ASPECT || this == PREVIOUS || this == NEXT;
         }
+    }
+
+    private record Notice(String tag, String text, int colour, long at) {
     }
 
     private record Spot(Kind kind, @Nullable Cell cell, @Nullable String tag, int index) {

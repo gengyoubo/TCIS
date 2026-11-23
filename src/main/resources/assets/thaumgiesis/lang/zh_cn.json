@@ -57,5 +57,7 @@
   "thaumgiesis.research.tip.note_take": "右键取回研究笔记（需先放下羽毛笔）",
   "thaumgiesis.research.tip.note_empty": "放入研究笔记",
   "thaumgiesis.research.tip.dish": "调和皿：放入两种要素进行调和，右键清空",
-  "thaumgiesis.research.tip.page": "翻页"
+  "thaumgiesis.research.tip.page": "翻页",
+  "thaumgiesis.research.notice.pool": "取得%s研究点:%s",
+  "thaumgiesis.research.notice.discovery": "您已发现%s!"
 }

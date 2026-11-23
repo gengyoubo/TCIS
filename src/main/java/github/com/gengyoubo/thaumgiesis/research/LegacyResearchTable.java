@@ -41,6 +41,7 @@ final class LegacyResearchTable {
     private final Method maxDamage;
     private final Method discovered;
     private final Method poolFor;
+    private final Method hasDiscovered;
     private final Method addPool;
     private final Method syncKnowledge;
     private final Method scheduleSave;
@@ -84,6 +85,7 @@ final class LegacyResearchTable {
         Class<?> knowledgeType = knowledge.getClass();
         discovered = knowledgeType.getMethod("getAspectsDiscovered", String.class);
         poolFor = knowledgeType.getMethod("getAspectPoolFor", String.class, aspect);
+        hasDiscovered = knowledgeType.getMethod("hasDiscoveredAspect", String.class, aspect);
         addPool = knowledgeType.getMethod("addAspectPool", String.class, aspect, short.class);
         syncKnowledge = loader.loadClass("thaumcraft.common.lib.research.ScanManager")
                 .getMethod("checkAndSyncAspectKnowledge", player, aspect, int.class);
@@ -178,11 +180,13 @@ final class LegacyResearchTable {
 
     /**
      * Combines two aspects into their compound, as the table's screen does: each is taken from the player's pool, or from the
-     * table's bonus aspects when the pool has none, and the compound is added to the pool.
+     * table's bonus aspects when the pool has none, and the compound is added to the pool. Returns what was made (its
+     * {@code aspect}, the {@code amount} and whether it is {@code new} to the player), or null when nothing was combined.
      */
-    boolean combine(ServerPlayer player, String first, String second) throws Exception {
+    CompoundTag combine(ServerPlayer player, String first, String second) throws Exception {
         String name = player.getGameProfile().getName();
-        return act(player, actor -> {
+        CompoundTag[] made = new CompoundTag[1];
+        act(player, actor -> {
             Object a = aspectByTag.invoke(null, first);
             Object b = aspectByTag.invoke(null, second);
             if (a == null || b == null || a == b) {
@@ -194,10 +198,16 @@ final class LegacyResearchTable {
             }
             take(actor, name, a);
             take(actor, name, b);
+            boolean fresh = !(boolean) hasDiscovered.invoke(knowledge, name, result);
             syncKnowledge.invoke(null, actor, result, 1);
             scheduleSave.invoke(null, actor);
+            made[0] = new CompoundTag();
+            made[0].putString("aspect", (String) aspectTag.invoke(result));
+            made[0].putInt("amount", 1);
+            made[0].putBoolean("new", fresh);
             return true;
         });
+        return made[0];
     }
 
     private boolean available(String name, Object aspect) throws Exception {

@@ -70,10 +70,12 @@ final class ResearchTableLogic implements StationLogic {
                     hint = "";
                 }
                 case ResearchTableStation.COMBINE -> {
-                    boolean combined = tile.combine(serverPlayer, data.getString("first"), data.getString("second"));
-                    hint = combined ? "combined" : "no_combination";
-                    if (combined) {
+                    CompoundTag made = tile.combine(serverPlayer, data.getString("first"), data.getString("second"));
+                    hint = made != null ? "combined" : "no_combination";
+                    if (made != null) {
                         station.level().playSound(null, station.pos(), SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 0.4F, 1.4F);
+                        // The player at the table is told what they made, as Thaumcraft tells them in the screen's corner.
+                        station.effect(ResearchTableStation.GAINED, "desk", made);
                     }
                 }
                 default -> {

@@ -57,5 +57,7 @@
   "thaumgiesis.research.tip.note_take": "Right-click to take the note (quill down first)",
   "thaumgiesis.research.tip.note_empty": "Place a research note",
   "thaumgiesis.research.tip.dish": "Mixing dish: drop in two aspects to combine them, right-click to empty",
-  "thaumgiesis.research.tip.page": "Turn the page"
+  "thaumgiesis.research.tip.page": "Turn the page",
+  "thaumgiesis.research.notice.pool": "Gained %s research point(s) for %s",
+  "thaumgiesis.research.notice.discovery": "You have discovered %s!"
 }
